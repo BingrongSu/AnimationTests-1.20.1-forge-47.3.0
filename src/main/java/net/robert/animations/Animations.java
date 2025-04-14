@@ -28,6 +28,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.robert.animations.block.ModBlocks;
+import net.robert.animations.item.ModCreativeModeTabs;
 import net.robert.animations.item.ModItems;
 import org.slf4j.Logger;
 
@@ -58,6 +59,7 @@ public class Animations
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModCreativeModeTabs.register(modEventBus);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event)
