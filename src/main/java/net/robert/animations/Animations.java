@@ -1,18 +1,9 @@
 package net.robert.animations;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -24,13 +15,16 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import net.robert.animations.block.ModBlocks;
+import net.robert.animations.entity.ModEntities;
+import net.robert.animations.entity.client.ModModelLayers;
+import net.robert.animations.entity.client.RingModel;
+import net.robert.animations.entity.client.RingRenderer;
 import net.robert.animations.item.ModCreativeModeTabs;
 import net.robert.animations.item.ModItems;
 import org.slf4j.Logger;
+
+import static net.robert.animations.entity.client.ModModelLayers.RING_LAYER;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Animations.MOD_ID)
@@ -44,6 +38,8 @@ public class Animations
     public Animations()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModEntities.register(modEventBus);
 
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
@@ -87,7 +83,10 @@ public class Animations
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
-
+            EntityRenderers.register(ModEntities.RING.get(), RingRenderer::new);
         }
+
     }
+
 }
+
